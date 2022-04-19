@@ -3,9 +3,13 @@ from .executeFunctions import interpret, takeStep
 from .imageFunctions import getImage
 from .GUI import GUI
 
+
+version="0.1.0"
+
+
 def main():
 
-    parser = argparse.ArgumentParser(description='Interprets a piet image')
+    parser = argparse.ArgumentParser(description=f'PietInterpreter v{version}')
     parser.add_argument("-f", "--file", required=True, type=str, help="complete filepath to a .png or .gif image")
     parser.add_argument("-v", "--verbose", action="store_true", help="Outputs number of steps to StdOut")
     parser.add_argument("-g", "--graphical", action="store_true", help="Opens GUI with the file loaded")
