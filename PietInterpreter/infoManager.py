@@ -1,8 +1,8 @@
-from ..interpreter.imageFunctions import getPixel, getCodel
-from ..interpreter.colors import isBlack
-from ..interpreter.tokens import toColorToken
-from ..interpreter.movementFunctions import getDP, getCC, getArrow
-from ..interpreter.dataStructures import direction
+from .imageFunctions import getPixel, getCodel
+from .colors import isBlack
+from .tokens import toColorToken
+from .movementFunctions import getDP, getCC, getArrow
+from .dataStructures import direction
 
 class infoManager():
     def __init__(self, builder, generalInfoFrame, programStateInfoFrame):

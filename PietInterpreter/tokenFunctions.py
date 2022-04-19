@@ -1,6 +1,5 @@
 from typing import List, Tuple, Union
 import copy
-
 from .tokens import baseLexerToken,toBlackToken,toWhiteToken,toColorToken,terminateToken
 from .movementFunctions import flip,flipDP,flipDPInvert
 from .errors import UnknownTokenError

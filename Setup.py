@@ -9,10 +9,10 @@ def create_wheel_file():
 
     productname = "PietInterpreter"
 
-    executables_namespace = f"{productname}"
+    executables_namespace = productname
 
-    folder_of_current_file = os.path.dirname(os.path.realpath(__file__))
-    packages = [package for package in find_packages(folder_of_current_file) if not package.endswith(".Tests")]
+    folder_of_current_file =os.path.dirname(os.path.realpath(__file__))
+    packages = [package for package in find_packages( folder_of_current_file) if not package.endswith(".Tests")]
 
     with open(os.path.join(folder_of_current_file, "ReadMe.md"), "r", encoding='utf-8') as file:
         long_description = file.read()
@@ -46,7 +46,7 @@ def create_wheel_file():
         ],
         entry_points={
             'console_scripts': [
-                f"Piet = {executables_namespace}.piet:main",
+                f"Piet = {executables_namespace}.Piet:main",
             ],
         },
     )

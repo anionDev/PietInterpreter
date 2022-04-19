@@ -2,10 +2,10 @@ import pygubu
 import os
 from .infoManager import infoManager
 from .canvasManager import canvasManager
-from ..interpreter.imageFunctions import getImage
-from ..interpreter.lexer import graphImage
-from ..interpreter.executeFunctions import takeStep
-from ..interpreter.dataStructures import programState, direction, position
+from .imageFunctions import getImage
+from .lexer import graphImage
+from .executeFunctions import takeStep
+from .dataStructures import programState, direction, position
 
 
 class GUI:

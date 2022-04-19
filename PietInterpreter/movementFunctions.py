@@ -1,6 +1,5 @@
 from typing import Union
 import operator
-
 from .dataStructures import direction, position, codel
 
 def getDP(directionPointer: int) -> str:

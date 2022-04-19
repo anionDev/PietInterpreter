@@ -1,7 +1,6 @@
 from typing import Union
 from PIL import Image
 import numpy as np
-
 from .colors import isWhite
 from .dataStructures import position, codel
 

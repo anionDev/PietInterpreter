@@ -1,4 +1,4 @@
-from ..interpreter.imageFunctions import getCodel, getPixel
+from .imageFunctions import getCodel, getPixel
 
 class canvasManager():
     def __init__(self, canvas, image, programState, scaleSize):
