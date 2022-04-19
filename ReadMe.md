@@ -5,14 +5,6 @@ Piet is an esoteric programming language, which is based on the geometric artist
 
 _Note: I used the term codel as a synonym for color block throughout the code._
 
-## Requirements
-
-The program requires the following libraries to be installed:
-
-- [Python pillow](https://pillow.readthedocs.io/en/stable/), used for loading images
-- [Numpy](https://numpy.org/), used for managing images
-- [Pygubu](https://pypi.org/project/pygubu/), used by the GUI
-
 ## Features
 
 This interpreter can do the following:
@@ -43,7 +35,7 @@ The main.py file in the root directory should be used to interface with the inte
 
 The help parameter shows all parameters from the commandline, and can be set as follows
 
-```cmd
+```sh
 python main.py -h
 python main.py --help
 ```
@@ -52,11 +44,14 @@ python main.py --help
 
 This is a required parameter, and is a path to the image that should be interpreted. The test-images provided in the repository can be interpreted as follows:
 
-```cmd
+```sh
 python main.py -f Countdown.png
 python main.py --file Countdown.png
+```
 
-/output
+Output:
+
+```sh
 10
 9
 8
@@ -74,11 +69,14 @@ python main.py --file Countdown.png
 
 Currently the verbose flag outputs the total amount of steps taken for the execution of the image.
 
-```cmd
+```sh
 python main.py --file Countdown.py -v
 python main.py --file Countdown.py --verbose
+```
 
-/output
+Output:
+
+```sh
 10
 9
 8
@@ -91,24 +89,23 @@ python main.py --file Countdown.py --verbose
 1
 
 Total steps: 276
-
 ```
 
 ### Graphical
 
 The graphical flag opens a GUI, with the given file loaded.
 
-```cmd
+```sh
 python main.py --file Countdown.py -g
 python main.py --file Countdown.py --graphical
 ```
 
 This command should open the interface:
-![countdown GUI](/Info/countdown_GUI.PNG?raw=true)
+![countdown GUI](./Reference/GUI/countdown_GUI.PNG)
 
 ## Interpreter infographic
 
-![infographic](/Info/poster.png?raw=true)
+![infographic](/Reference/poster.png)
 
 ## Test programs
 
@@ -139,3 +136,47 @@ Outputs Hello World! to StdOut
 ### StackRoll.png
 
 This program shows the functionality behind the stackroll function. It is recommended to run this in graphical mode, to show the stack changing
+
+## Development
+
+### Requirements
+
+The program requires the following libraries to be installed:
+
+- [Python pillow](https://pillow.readthedocs.io/en/stable/), used for loading images
+- [Numpy](https://numpy.org/), used for managing images
+- [Pygubu](https://pypi.org/project/pygubu/), used by the GUI
+
+Install the dependencies using:
+
+```sh
+pip3 install Pillow>=9.1.0
+pip3 install numpy>=1.22.3
+pip3 install pygubu>=0.20.1
+```
+
+### Development-Dependencies
+
+Install the development-dependencies using:
+
+```sh
+pip3 install wheel
+```
+
+### Build
+
+To Create an installable whl-package simply execute `python Setup.py bdist_wheel --dist-dir .`.
+
+When doing this multiple times you should also clean temporary files created by python before creating the whl-package.
+So to do this and install the local created package the steps are:
+
+```sh
+pip3 uninstall -y PietInterpreter
+git clean -dfx
+python Setup.py bdist_wheel --dist-dir .
+pip3 install PietInterpreter-x.x.x-py3-none-any.whl
+```
+
+## License
+
+See `License.txt` for license-information.
