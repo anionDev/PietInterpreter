@@ -1,13 +1,12 @@
 from typing import List, Tuple, Union
 import copy
+from .tokens import baseLexerToken,toBlackToken,toWhiteToken,toColorToken,terminateToken
+from .movementFunctions import flip,flipDP,flipDPInvert
+from .errors import UnknownTokenError
+from .dataStructures import direction
 
-from interpreter import tokens as lexerTokens
-from interpreter import movementFunctions as movement
-from interpreter import errors as errors
-from interpreter.dataStructures import direction
 
-
-def executeToken(token: lexerTokens.baseLexerToken, inputDirection: direction, dataStack: List[int]) -> Union[Tuple[direction, List[int]], BaseException]:
+def executeToken(token: baseLexerToken, inputDirection: direction, dataStack: list[int]) -> Union[Tuple[direction, List[int]], BaseException]:
     """
     Executes the function associated with tokens
     :param token: Input token
@@ -15,20 +14,20 @@ def executeToken(token: lexerTokens.baseLexerToken, inputDirection: direction, d
     :param dataStack: Input stack
     :return: Either a combination of a new stack and direction, or a runtime Exception
     """
-    if isinstance(token, lexerTokens.toBlackToken):
-        newPointers = movement.flip(inputDirection)
+    if isinstance(token, toBlackToken):
+        newPointers = flip(inputDirection)
         return (newPointers, dataStack)
-    if isinstance(token, lexerTokens.toWhiteToken):
+    if isinstance(token, toWhiteToken):
         return (inputDirection, dataStack)
-    if isinstance(token, lexerTokens.toColorToken):
+    if isinstance(token, toColorToken):
         return executeColorToken(token, inputDirection, dataStack)
-    if isinstance(token, lexerTokens.terminateToken):
+    if isinstance(token, terminateToken):
         return (inputDirection, dataStack)
-    return errors.UnknownTokenError("Token of type {} is unknown")
+    return UnknownTokenError("Token of type {} is unknown")
 
 
 
-def executeColorToken(token: lexerTokens.toColorToken, inputDirection: direction, dataStack: List[int]) -> Union[Tuple[direction, List[int]], BaseException]:
+def executeColorToken(token: toColorToken, inputDirection: direction, dataStack: List[int]) -> Union[Tuple[direction, List[int]], BaseException]:
     """
     Executes the to color operations
     :param token: input token
@@ -79,7 +78,7 @@ def executeColorToken(token: lexerTokens.toColorToken, inputDirection: direction
     elif token.tokenType == "outC":
         return outCOperator(inputDirection, dataStack)
     else:
-        return errors.UnknownTokenError("Token {} not found".format(token.tokenType))
+        return UnknownTokenError("Token {} not found".format(token.tokenType))
 
 
 def noopOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direction, List[int]]:
@@ -225,7 +224,7 @@ def pointerOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[di
     dpTurnCount = newStack.pop()
     # Python module makes negative modulo's positive, so we need to manually flip the DP the required amount of times
     if dpTurnCount < 0:
-        dp = movement.flipDPInvert(dp, dpTurnCount)
+        dp = flipDPInvert(dp, dpTurnCount)
         return (direction((dp, inputDirection.pointers[1])), newStack)
     else:
         # Cycle the DP forward by using the module operator
@@ -305,7 +304,7 @@ def outCOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direc
     return (inputDirection, newStack)
 
 
-def pushOperator(token: lexerTokens.toColorToken, inputDirection: direction, dataStack: List[int]) -> Tuple[direction, List[int]]:
+def pushOperator(token: toColorToken, inputDirection: direction, dataStack: List[int]) -> Tuple[direction, List[int]]:
     """
     Pushes the codelsize of the token to the stack
     """

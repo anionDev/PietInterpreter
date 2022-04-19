@@ -1,8 +1,6 @@
-from typing import Dict, Union
-
+from typing import Union
 import numpy as np
-
-from interpreter import errors as errors
+from .errors import UnknownColorError
 
 class possiblePixels:
     def __init__(self):
@@ -30,7 +28,7 @@ class possiblePixels:
         self.black = [0, 0, 0]
 
 
-def getPixelChange(colorStart: np.ndarray, colorEnd: np.ndarray) -> Union[Dict[str, int], BaseException]:
+def getPixelChange(colorStart: np.ndarray, colorEnd: np.ndarray) -> Union[dict[str, int], BaseException]:
     """
     Gets the Hue change and the light change from two different colors
     :param colorStart: Starting color
@@ -57,9 +55,9 @@ def getPixelChange(colorStart: np.ndarray, colorEnd: np.ndarray) -> Union[Dict[s
     colorEnd = list(colorEnd)[:3]
 
     if colorStart not in pixelsColors.colors:
-        return errors.UnknownColorError("Color {} is not recognized as a correct color".format(colorStart))
+        return UnknownColorError("Color {} is not recognized as a correct color".format(colorStart))
     if colorEnd not in pixelsColors.colors:
-        return errors.UnknownColorError("Color {} is not recognized as a correct color".format(colorEnd))
+        return UnknownColorError("Color {} is not recognized as a correct color".format(colorEnd))
 
     indexStart = pixelsColors.colors.index(colorStart)
     indexEnd = pixelsColors.colors.index(colorEnd)

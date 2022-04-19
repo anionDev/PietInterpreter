@@ -1,8 +1,8 @@
-import interpreter.imageFunctions as imageWrapper
-import interpreter.colors as colors
-import interpreter.tokens as lexerTokens
-import interpreter.movementFunctions as movement
-from interpreter.dataStructures import direction
+from .imageFunctions import getPixel, getCodel
+from .colors import isBlack
+from .tokens import toColorToken
+from .movementFunctions import getDP, getCC, getArrow
+from .dataStructures import direction
 
 class infoManager():
     def __init__(self, builder, generalInfoFrame, programStateInfoFrame):
@@ -25,11 +25,11 @@ class infoManager():
     def updateEdgesInfo(self, image, inputGraph, programState):
         edgesInfo = self.builder.get_object('codelEdgesMessage', self.generalInfo)
 
-        if colors.isBlack(imageWrapper.getPixel(image, programState.position)):
+        if isBlack(getPixel(image, programState.position)):
             edgesInfo.configure(text = "Black pixels are no codel, and have no edges")
             return None
 
-        codel = imageWrapper.getCodel(image, programState.position)
+        codel = getCodel(image, programState.position)
         baseString = "Next step will be:\n"
 
         graphNode = inputGraph.graph[codel]
@@ -46,10 +46,10 @@ class infoManager():
         edgesInfo.configure(text = baseString)
 
     def getEdgeDescription(self, edge, pointer):
-        if isinstance(edge[0], lexerTokens.toColorToken) and edge[0].tokenType == "push":
-            return "{}/{},{} -> {}({})\n".format(edge[1], movement.getDP(pointer.pointers[0]), movement.getCC(pointer.pointers[1]), edge[0].tokenType, edge[0].codelSize)
+        if isinstance(edge[0], toColorToken) and edge[0].tokenType == "push":
+            return "{}/{},{} -> {}({})\n".format(edge[1], getDP(pointer.pointers[0]), getCC(pointer.pointers[1]), edge[0].tokenType, edge[0].codelSize)
         else:
-            return "{}/{},{} -> {}\n".format(edge[1], movement.getDP(pointer.pointers[0]), movement.getCC(pointer.pointers[1]), edge[0].tokenType)
+            return "{}/{},{} -> {}\n".format(edge[1], getDP(pointer.pointers[0]), getCC(pointer.pointers[1]), edge[0].tokenType)
 
     def updateStackInfo(self, stack):
         baseString = ""
@@ -61,9 +61,9 @@ class infoManager():
         stackInfoMessage.configure(text=baseString)
 
     def updatePointersInfo(self, position, direction):
-        # print("Update pointers: {} -> Arrow: {}".format(direction, movement.getArrow(direction)))
+        print("Update pointers: {} -> Arrow: {}".format(direction, getArrow(direction)))
         baseString = "Pos: ({},{})\n".format(position.coords[0], position.coords[1])
-        baseString += u"DP: {} ({},{})".format(movement.getArrow(direction), movement.getDP(direction.pointers[0]), movement.getCC(direction.pointers[1]))
+        baseString += u"DP: {} ({},{})".format(getArrow(direction), getDP(direction.pointers[0]), getCC(direction.pointers[1]))
 
         pointersInfoMessage = self.builder.get_object("pointerMessage", self.programStateInfoFrame)
         pointersInfoMessage.configure(text=baseString)

@@ -1,9 +1,8 @@
 from typing import Union
 from PIL import Image
 import numpy as np
-
-import interpreter.colors as colors
-from interpreter.dataStructures import position, codel
+from .colors import isWhite
+from .dataStructures import position, codel
 
 
 def boundsChecker(image: np.ndarray, inputPosition: position) -> bool:
@@ -55,7 +54,7 @@ def getCodel(image: np.ndarray, inputPosition: position, foundPixels: codel = No
         return foundPixels
 
     # Adjacent white colors don't form a codel
-    if colors.isWhite(getPixel(image, inputPosition)):
+    if isWhite(getPixel(image, inputPosition)):
         foundPixels.codel.add(inputPosition)
         return foundPixels
 

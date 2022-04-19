@@ -1,25 +1,26 @@
 import copy
-from typing import Union, List, Callable
-
+import sys
+from typing import Union, Callable
 import numpy as np
+from .lexer import graphImage
+from .imageFunctions import getCodel, getPixel
+from .tokens import toWhiteToken, toColorToken,terminateToken
+from .movementFunctions import getNextPosition
+from .colors import isBlack
+from .tokenFunctions import executeToken
+from .errors import InBlackPixelError
+from .dataStructures import programState, position, direction
 
-from interpreter import imageFunctions as imageWrapper
-from interpreter import lexer as lexer
-from interpreter import tokens as tokens
-from interpreter import movementFunctions as movement
-from interpreter import colors as colors
-from interpreter import tokenFunctions as runner
-from interpreter import errors as errors
-from interpreter.dataStructures import programState, position, direction
+sys.setrecursionlimit(100000)
 
 
-def interpret(image: np.ndarray) -> Union[programState, List[BaseException]]:
+def interpret(image: np.ndarray) -> Union[programState, list[BaseException]]:
     """
     Interprets and executes a Piet image
     :param image: Input image
     :return: Either the final state of the program, or a list of exceptions
     """
-    graph = lexer.graphImage(image)
+    graph = graphImage(image)
     if len(graph[1]) > 0:
         print("The following exceptions occured while making the graph:\n{}".format("".join(list(map(lambda x: "\t{}\n".format(x), graph[1])))))
         return graph[1]
@@ -46,15 +47,15 @@ def runProgram(image: np.ndarray, PS: programState) -> Union[programState, BaseE
     """
     newState = copy.deepcopy(PS)
 
-    if colors.isBlack(imageWrapper.getPixel(image, newState.position)):
-        return errors.inBlackPixelError("Programstate starts in black pixel at {}".format(newState.position))
+    if isBlack(getPixel(image, newState.position)):
+        return InBlackPixelError("Programstate starts in black pixel at {}".format(newState.position))
 
-    currentCodel = imageWrapper.getCodel(image, newState.position)
+    currentCodel = getCodel(image, newState.position)
     newGraph = newState.graph.graph
     graphNode = newGraph[currentCodel]
     newToken = graphNode.graphNode[newState.direction][0]
 
-    if isinstance(newToken, tokens.terminateToken):
+    if isinstance(newToken, terminateToken):
         return newState
 
     newState = takeStep(image, newState)
@@ -85,7 +86,7 @@ def takeStep(image: np.ndarray, PS: programState) -> Union[programState, BaseExc
     :return: Returns either the resulting programstate, or an exception that occurred
     """
     newState = copy.deepcopy(PS)
-    currentCodel = imageWrapper.getCodel(image, newState.position)
+    currentCodel = getCodel(image, newState.position)
 
     newGraph = newState.graph.graph
     graphNode = newGraph[currentCodel]
@@ -93,7 +94,7 @@ def takeStep(image: np.ndarray, PS: programState) -> Union[programState, BaseExc
 
     edgePosition = graphNode.graphNode[newState.direction][1]
 
-    result = runner.executeToken(newToken, newState.direction, newState.dataStack)
+    result = executeToken(newToken, newState.direction, newState.dataStack)
 
     # Add additional information to the error message (Position and direction)
     if isinstance(result, BaseException):
@@ -102,8 +103,8 @@ def takeStep(image: np.ndarray, PS: programState) -> Union[programState, BaseExc
 
     # If the next token is either white or color, just move along. If the token was black (or terminate), the direction
     # is already changed, but the position shouldn't move
-    if isinstance(newToken, (tokens.toWhiteToken, tokens.toColorToken)):
-        newState.position = movement.getNextPosition(edgePosition, newState.direction.pointers[0])
+    if isinstance(newToken, (toWhiteToken, toColorToken)):
+        newState.position = getNextPosition(edgePosition, newState.direction.pointers[0])
 
     # Use the new direction and stack for the next step
     newState.direction = result[0]

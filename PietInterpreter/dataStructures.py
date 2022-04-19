@@ -1,13 +1,11 @@
-from typing import Set, Tuple, Dict, List
 import copy
-
-from interpreter import tokens as tokens
+from .tokens import baseLexerToken
 
 class position():
     """
     A coords is a tuple of x and y coordinates
     """
-    def __init__(self, newPosition: Tuple[int, int]):
+    def __init__(self, newPosition: tuple[int, int]):
         self.coords = newPosition
 
     def __str__(self):
@@ -34,7 +32,7 @@ class direction():
     """
     A direction is made up of a Direction Pointer (DP) at .pointers[0] and a Codel Chooser (CC) at .pointers[1].
     """
-    def __init__(self, newPointers: Tuple[int, int]):
+    def __init__(self, newPointers: tuple[int, int]):
         self.pointers = newPointers
 
     def __str__(self):
@@ -60,7 +58,7 @@ class codel():
     """
     A codel is a set of positions adjacent to each other and with the same color as each other
     """
-    def __init__(self, newCodel: Set[position]):
+    def __init__(self, newCodel: set[position]):
         self.codel = newCodel
 
     def __str__(self):
@@ -87,7 +85,7 @@ class edge():
     """
     The edge contains a position and direction (DP and CC)
     """
-    def __init__(self, newEdge: Tuple[position, direction]):
+    def __init__(self, newEdge: tuple[position, direction]):
         self.edge = newEdge
 
     def __str__(self):
@@ -101,7 +99,7 @@ class graphNode():
     """
     The key to the token and coords is a direction
     """
-    def __init__(self, newNode: Dict[direction, Tuple[tokens.baseLexerToken, position]]):
+    def __init__(self, newNode: dict[direction, tuple[baseLexerToken, position]]):
         self.graphNode = newNode
 
     def __str__(self):
@@ -115,7 +113,7 @@ class graph():
     """
     Each codel has a node of directions and tokens associated with those directions (and where the edge will start)
     """
-    def __init__(self, newGraph: Dict[codel, graphNode]):
+    def __init__(self, newGraph: dict[codel, graphNode]):
         self.graph = newGraph
 
     def __str__(self):
@@ -128,7 +126,7 @@ class programState():
     """
     The program state contains the graph of the program, the position, direction and stack.
     """
-    def __init__(self, newGraph:  graph, newPosition: position, newDirection: direction, dataStack: List[int] = None):
+    def __init__(self, newGraph:  graph, newPosition: position, newDirection: direction, dataStack: list[int] = None):
         if dataStack is None:
             dataStack = []
 
