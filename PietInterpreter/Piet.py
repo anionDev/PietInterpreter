@@ -1,7 +1,7 @@
 import argparse
-from .interpreter.executeFunctions import interpret, takeStep
-from .interpreter.imageFunctions import getImage
-from .GUI.GUI import GUI
+from components.interpreter.executeFunctions import interpret, takeStep
+from components.interpreter.imageFunctions import getImage
+from components.GUI.GUI import GUI
 
 def main():
 

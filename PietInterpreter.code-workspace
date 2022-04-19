@@ -21,5 +21,18 @@
 			"latex",
 			"plaintext",
 		],
+	},
+	"launch": {
+		"configurations": [
+			{
+				"name": "Debug",
+				"type": "python",
+				"request": "launch",
+				"program": "Piet.py",
+				"cwd": "${workspaceFolder}/PietInterpreter",
+				"console": "integratedTerminal"
+			}
+		],
+		"compounds": []
 	}
 }

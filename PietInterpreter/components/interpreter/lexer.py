@@ -1,13 +1,12 @@
 from typing import List, Union, Tuple
 import copy
 import numpy as np
-
-import interpreter.colors as colors
-import interpreter.imageFunctions as imageWrapper
-import interpreter.tokens as tokens
-import interpreter.helperFunctions as helperFunctions
-import interpreter.movementFunctions as movement
-from interpreter.dataStructures import position, codel, edge, graphNode, graph, direction
+from .colors import isBlack
+from .imageFunctions import boundsChecker, getCodel, getPixel
+from .tokens import toBlackToken, terminateToken
+from .helperFunctions import edgeToToken
+from .movementFunctions import findEdge
+from .dataStructures import position, codel, edge, graphNode, graph, direction
 
 
 def cyclePosition(image: np.ndarray, startPosition: position) -> Union[position, bool]:
@@ -16,7 +15,7 @@ def cyclePosition(image: np.ndarray, startPosition: position) -> Union[position,
     :param startPosition: from where to go to Tuple (x,y)
     :return: newPosition (x,y), or false if new coords would fall out of bounds
     """
-    if not imageWrapper.boundsChecker(image, startPosition):
+    if not boundsChecker(image, startPosition):
         return False
 
     if startPosition.coords[0] == image.shape[1] - 1:
@@ -39,10 +38,10 @@ def getCodels(image: np.ndarray, positionList: List[position]) -> List[codel]:
     copiedList = positionList.copy()
     newPosition = copiedList.pop(0)
 
-    if colors.isBlack(imageWrapper.getPixel(image, newPosition)):
+    if isBlack(getPixel(image, newPosition)):
         return getCodels(image, copiedList)
 
-    newCodel = imageWrapper.getCodel(image, newPosition)
+    newCodel = getCodel(image, newPosition)
 
     # Remove found positions from coords list
     copiedList = list(set(copiedList) - newCodel.codel)
@@ -59,7 +58,7 @@ def edgesToGraphNode(image: np.ndarray, edges: List[edge]) -> Tuple[graphNode, L
     :param edges: List[Tuple[coords, pointers]]
     :return: A graphNode containing tokens for each edge given, and a list of exceptions occurred during creation
     """
-    node = graphNode(dict(map(lambda x, lambdaImage=image: (x.edge[1], (helperFunctions.edgeToToken(lambdaImage, x), x.edge[0])), edges)))
+    node = graphNode(dict(map(lambda x, lambdaImage=image: (x.edge[1], (edgeToToken(lambdaImage, x), x.edge[0])), edges)))
     # Extract the exceptions from each edge
     exceptions = list(map(lambda x: x[1][0], filter(lambda graphNodeItem: isinstance(graphNodeItem[1][0], BaseException), node.graphNode.items())))
     return (node, exceptions)
@@ -71,7 +70,7 @@ def isGraphNodeTerminate(inputNode: graphNode) -> bool:
     :param inputNode: A graph node
     :return: True if all tokens in graph node are toBlackTokens, False otherwise.
     """
-    return all(map(lambda x: isinstance(x[1][0], tokens.toBlackToken), inputNode.graphNode.items()))
+    return all(map(lambda x: isinstance(x[1][0], toBlackToken), inputNode.graphNode.items()))
 
 
 def graphNodeToTerminate(inputNode: graphNode) -> graphNode:
@@ -80,7 +79,7 @@ def graphNodeToTerminate(inputNode: graphNode) -> graphNode:
     :param inputNode: A graph node
     :return: A new graph node with only terminateTokens
     """
-    return graphNode(dict(map(lambda x: (x[0], (tokens.terminateToken(), x[1][1])), inputNode.graphNode.items())))
+    return graphNode(dict(map(lambda x: (x[0], (terminateToken(), x[1][1])), inputNode.graphNode.items())))
 
 
 def codelToGraphNode(image: np.ndarray, inputCodel: codel, edgePointers: List[direction]) -> Tuple[graphNode, List[BaseException]]:
@@ -93,7 +92,7 @@ def codelToGraphNode(image: np.ndarray, inputCodel: codel, edgePointers: List[di
     # make codel immutable
     copiedCodel = copy.copy(inputCodel)
     # Find all edges along the codel and edgepointers
-    edges = list(map(lambda pointers, lambdaCodel=copiedCodel: edge((movement.findEdge(lambdaCodel, pointers), pointers)), edgePointers))
+    edges = list(map(lambda pointers, lambdaCodel=copiedCodel: edge((findEdge(lambdaCodel, pointers), pointers)), edgePointers))
     newGraphNode = edgesToGraphNode(image, edges)
 
     # If there were exceptions in the graph node, there is no need to terminate them
@@ -141,7 +140,7 @@ def graphImage(image: np.ndarray) -> Tuple[graph, List[BaseException]]:
     # Converts tuples of coordinates into position objects
     positions = map(position, coords)
     # Makes a list of non-black pixel positions
-    nonBlackPositions = list(filter(lambda pos: not colors.isBlack(imageWrapper.getPixel(image, pos)), positions))
+    nonBlackPositions = list(filter(lambda pos: not isBlack(getPixel(image, pos)), positions))
     # Gets all codels from all non-black pixel positions
     allCodels = getCodels(image, nonBlackPositions)
     # Makes a graph with the codel as key, and the node as value

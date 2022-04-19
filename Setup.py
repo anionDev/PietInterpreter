@@ -9,7 +9,7 @@ def create_wheel_file():
 
     productname = "PietInterpreter"
 
-    executables_namespace = f"{productname}.{productname}"
+    executables_namespace = f"{productname}"
 
     folder_of_current_file = os.path.dirname(os.path.realpath(__file__))
     packages = [package for package in find_packages(folder_of_current_file) if not package.endswith(".Tests")]
@@ -46,7 +46,7 @@ def create_wheel_file():
         ],
         entry_points={
             'console_scripts': [
-                f"PietInterpreter = {executables_namespace}:main",
+                f"Piet = {executables_namespace}.piet:main",
             ],
         },
     )
