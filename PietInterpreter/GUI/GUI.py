@@ -1,13 +1,11 @@
 import pygubu
 import os
-
-from interpreter import imageFunctions as imageWrapper
-from interpreter import lexer as lexer
-from interpreter import executeFunctions as main
-from interpreter.dataStructures import programState, direction, position
-
-from GUI import infoManager
-from GUI import canvasManager
+from .infoManager import infoManager
+from .canvasManager import canvasManager
+from ..interpreter.imageFunctions import getImage
+from ..interpreter.lexer import graphImage
+from ..interpreter.executeFunctions import takeStep
+from ..interpreter.dataStructures import programState, direction, position
 
 
 class GUI:
@@ -41,8 +39,8 @@ class GUI:
 
         self.initializeFrames()
         self.initializeCallbacks()
-        self.infoManager = infoManager.infoManager(self.builder, self.generalInfoFrame, self.programStateInfoFrame)
-        self.canvasManager = canvasManager.canvasManager(self.canvas, self.image, self.programState, self.scaleSize)
+        self.infoManager = infoManager(self.builder, self.generalInfoFrame, self.programStateInfoFrame)
+        self.canvasManager = canvasManager(self.canvas, self.image, self.programState, self.scaleSize)
 
 
     def run(self):
@@ -87,7 +85,7 @@ class GUI:
         if self.image is None or self.programState is None or self.graph is None:
             return None
 
-        newProgramState = main.takeStep(self.image, self.programState)
+        newProgramState = takeStep(self.image, self.programState)
         # Error encountered, close window
         if isinstance(newProgramState, BaseException):
             self.mainwindow.destroy()
@@ -125,13 +123,13 @@ class GUI:
         if len(fileName) < 1:
             return None
         try:
-            tmpImage = imageWrapper.getImage(fileName)
+            tmpImage = getImage(fileName)
         except FileNotFoundError:
             edgeInfo = self.infoManager.builder.get_object('codelEdgesMessage', self.infoManager.generalInfo)
             edgeInfo.configure(text="The file '{}' could not be found".format(fileName))
             return False
 
-        tmpResult = lexer.graphImage(tmpImage)
+        tmpResult = graphImage(tmpImage)
         if len(tmpResult[1]) != 0:
             edgeInfo = self.infoManager.builder.get_object('codelEdgesMessage', self.infoManager.generalInfo)
             edgeInfo.configure(text="The following exceptions occured while making the graph:\n{}".format("".join(list(map(lambda x: "\t{}\n".format(x), tmpResult[1])))))

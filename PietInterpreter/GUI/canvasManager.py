@@ -1,5 +1,4 @@
-import interpreter.imageFunctions as imageWrapper
-
+from ..interpreter.imageFunctions import getCodel, getPixel
 
 class canvasManager():
     def __init__(self, canvas, image, programState, scaleSize):
@@ -78,16 +77,16 @@ class canvasManager():
         Outlines the current codel with complemented colors
         :return:
         """
-        codel = imageWrapper.getCodel(self.image, self.programState.position)
-        pixel = imageWrapper.getPixel(self.image, self.programState.position)
+        codel = getCodel(self.image, self.programState.position)
+        pixel = getPixel(self.image, self.programState.position)
         color = self.pixelToHexString(pixel)
         outline = self.pixelToHexString(self.complement(int(pixel[0]), int(pixel[1]), int(pixel[2])))
         self.colorCodel(codel, color, outline)
 
 
     def unHighlightCodel(self):
-        codel = imageWrapper.getCodel(self.image, self.previousProgramState.position)
-        pixel = imageWrapper.getPixel(self.image, self.previousProgramState.position)
+        codel = getCodel(self.image, self.previousProgramState.position)
+        pixel = getPixel(self.image, self.previousProgramState.position)
         color = self.pixelToHexString(pixel)
         self.colorCodel(codel, color, color)
 

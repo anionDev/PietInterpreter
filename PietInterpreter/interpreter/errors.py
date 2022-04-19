@@ -1,5 +1,3 @@
-
-
 class UnknownColorError(BaseException):
     """Raise this when a color is found that is not one of the 18 allowed colors"""
 
@@ -9,5 +7,5 @@ class CommandNotFoundError(BaseException):
 class UnknownTokenError(BaseException):
     """Raise this when a token is unknown"""
 
-class inBlackPixelError(BaseException):
+class InBlackPixelError(BaseException):
     """Raise this when a programstate begins inside a black pixel"""
