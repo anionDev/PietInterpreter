@@ -2,7 +2,7 @@ import os
 from setuptools import setup, find_packages
 
 
-version = "0.1.0"
+version = "1.0.1"
 
 
 def create_wheel_file():
@@ -20,7 +20,7 @@ def create_wheel_file():
     setup(
         name=productname,
         version=version,
-        description="PietInterpreter is an interpreter for Piet-programs which was originally written by Jens Bouman.",
+        description="PietInterpreter is an interpreter for Piet-programs.",
         packages=packages,
         author="Marius Göcke",
         author_email="marius.goecke@gmail.com",
