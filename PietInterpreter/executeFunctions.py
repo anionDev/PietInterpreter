@@ -22,7 +22,7 @@ def interpret(image: np.ndarray) -> Union[ProgramState, list[BaseException]]:
     """
     graph = graphImage(image)
     if len(graph[1]) > 0:
-        print("The following exceptions occured while making the graph:\n{}".format("".join(list(map(lambda x: "\t{}\n".format(x), graph[1])))))
+        print("The following exceptions occured while making the graph:\n{}".format("".join(list(map("\t{}\n".format, graph[1])))))
         return graph[1]
 
     # This is the default programState.
