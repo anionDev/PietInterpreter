@@ -121,7 +121,7 @@ class GUI:
     def loadFile(self):
         fileName = self.builder.get_object('fileNameEntry', self.optionBar).get()
         if len(fileName) < 1:
-            return None
+            return False
         try:
             tmpImage = getImage(fileName)
         except FileNotFoundError:
@@ -142,3 +142,4 @@ class GUI:
         self.canvasManager.previousProgramState = None
         self.canvasManager.programState = None
         self.update()
+        return True

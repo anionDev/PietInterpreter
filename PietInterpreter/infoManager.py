@@ -27,7 +27,6 @@ class InfoManager():
 
         if isBlack(getPixel(image, programState.position)):
             edgesInfo.configure(text = "Black pixels are no codel, and have no edges")
-            return None
 
         codel = getCodel(image, programState.position)
         baseString = "Next step will be:\n"
