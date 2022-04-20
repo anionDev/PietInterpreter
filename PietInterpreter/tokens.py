@@ -1,4 +1,4 @@
-class baseLexerToken():
+class BaseLexerToken():
     def __init__(self, tokenType: str):
         self.tokenType = tokenType
 
@@ -9,7 +9,7 @@ class baseLexerToken():
         return str(self)
 
 
-class toBlackToken(baseLexerToken):
+class BoBlackToken(BaseLexerToken):
     """
     Used when a transition to black (or edge) occurs
     """
@@ -17,7 +17,7 @@ class toBlackToken(baseLexerToken):
         super().__init__(tokenType)
 
 
-class toWhiteToken(baseLexerToken):
+class ToWhiteToken(BaseLexerToken):
     """
     Used when a transition to white occurs
     """
@@ -25,7 +25,7 @@ class toWhiteToken(baseLexerToken):
         super().__init__("toWhite")
 
 
-class terminateToken(baseLexerToken):
+class TerminateToken(BaseLexerToken):
     """
     Used when a codel has no possible way to escape (8 * toBlack)
     """
@@ -33,7 +33,7 @@ class terminateToken(baseLexerToken):
         super().__init__("exit")
 
 
-class toColorToken(baseLexerToken):
+class ToColorToken(BaseLexerToken):
     """
     Used when a transition to a color occurs
     """

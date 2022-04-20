@@ -1,12 +1,12 @@
 from typing import List, Tuple, Union
 import copy
-from .tokens import baseLexerToken,toBlackToken,toWhiteToken,toColorToken,terminateToken
-from .movementFunctions import flip,flipDP,flipDPInvert
+from .tokens import BaseLexerToken,BoBlackToken,ToWhiteToken,ToColorToken,TerminateToken
+from .movementFunctions import flip, flipDPInvert
 from .errors import UnknownTokenError
-from .dataStructures import direction
+from .dataStructures import Direction
 
 
-def executeToken(token: baseLexerToken, inputDirection: direction, dataStack: list[int]) -> Union[Tuple[direction, List[int]], BaseException]:
+def executeToken(token: BaseLexerToken, inputDirection: Direction, dataStack: list[int]) -> Union[Tuple[Direction, List[int]], BaseException]:
     """
     Executes the function associated with tokens
     :param token: Input token
@@ -14,20 +14,20 @@ def executeToken(token: baseLexerToken, inputDirection: direction, dataStack: li
     :param dataStack: Input stack
     :return: Either a combination of a new stack and direction, or a runtime Exception
     """
-    if isinstance(token, toBlackToken):
+    if isinstance(token, BoBlackToken):
         newPointers = flip(inputDirection)
         return (newPointers, dataStack)
-    if isinstance(token, toWhiteToken):
+    if isinstance(token, ToWhiteToken):
         return (inputDirection, dataStack)
-    if isinstance(token, toColorToken):
+    if isinstance(token, ToColorToken):
         return executeColorToken(token, inputDirection, dataStack)
-    if isinstance(token, terminateToken):
+    if isinstance(token, TerminateToken):
         return (inputDirection, dataStack)
     return UnknownTokenError("Token of type {} is unknown")
 
 
 
-def executeColorToken(token: toColorToken, inputDirection: direction, dataStack: List[int]) -> Union[Tuple[direction, List[int]], BaseException]:
+def executeColorToken(token: ToColorToken, inputDirection: Direction, dataStack: List[int]) -> Union[Tuple[Direction, List[int]], BaseException]:
     """
     Executes the to color operations
     :param token: input token
@@ -81,7 +81,7 @@ def executeColorToken(token: toColorToken, inputDirection: direction, dataStack:
         return UnknownTokenError("Token {} not found".format(token.tokenType))
 
 
-def noopOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direction, List[int]]:
+def noopOperator(inputDirection: Direction, dataStack: List[int]) -> Tuple[Direction, List[int]]:
     """
     Does nothing
     :param pointers: The tuple with the direction pointer and codel chooser
@@ -91,7 +91,7 @@ def noopOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direc
     return (copy.deepcopy(inputDirection), dataStack.copy())
 
 
-def addOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direction, List[int]]:
+def addOperator(inputDirection: Direction, dataStack: List[int]) -> Tuple[Direction, List[int]]:
     """
     Pops the two values from the stack and add them together, then pushes the result
     :param pointers: The tuple with the direction pointer and codel chooser
@@ -106,7 +106,7 @@ def addOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direct
     return (inputDirection, newStack)
 
 
-def subtractOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direction, List[int]]:
+def subtractOperator(inputDirection: Direction, dataStack: List[int]) -> Tuple[Direction, List[int]]:
     """
     Subtracts the second value from the first value of the stack
     """
@@ -121,7 +121,7 @@ def subtractOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[d
     return (inputDirection, newStack)
 
 
-def multiplyOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direction, List[int]]:
+def multiplyOperator(inputDirection: Direction, dataStack: List[int]) -> Tuple[Direction, List[int]]:
     """
     Pops the first 2 values from the stack, and pushes the product of them
     """
@@ -133,7 +133,7 @@ def multiplyOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[d
     return (inputDirection, newStack)
 
 
-def divideOperator(inputDirection: direction, dataStack: List[int]) -> Union[Tuple[direction, List[int]], BaseException]:
+def divideOperator(inputDirection: Direction, dataStack: List[int]) -> Union[Tuple[Direction, List[int]], BaseException]:
     """
     Provides integer division (//)
     :param pointers: The tuple with the direction pointer and codel chooser
@@ -153,7 +153,7 @@ def divideOperator(inputDirection: direction, dataStack: List[int]) -> Union[Tup
     return (newDirection, newStack)
 
 
-def modOperator(inputDirection: direction, dataStack: List[int]) -> Union[Tuple[direction, List[int]], BaseException]:
+def modOperator(inputDirection: Direction, dataStack: List[int]) -> Union[Tuple[Direction, List[int]], BaseException]:
     """
     Pops the first two values of the stack, mods the second value by the first value and pushes the result back to the stack
     :param inputDirection:
@@ -172,7 +172,7 @@ def modOperator(inputDirection: direction, dataStack: List[int]) -> Union[Tuple[
     return (inputDirection, newStack)
 
 
-def greaterOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direction, List[int]]:
+def greaterOperator(inputDirection: Direction, dataStack: List[int]) -> Tuple[Direction, List[int]]:
     """
     Compares the second value of the stack with the first value of the stack. If the stack is empty, this gets ignored
     :param pointers: The tuple with the direction pointer and codel chooser
@@ -191,7 +191,7 @@ def greaterOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[di
     return (inputDirection, newStack)
 
 
-def notOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direction, List[int]]:
+def notOperator(inputDirection: Direction, dataStack: List[int]) -> Tuple[Direction, List[int]]:
     """
     Compares the second value of the stack with the first value of the stack
     :param pointers: The tuple with the direction pointer and codel chooser
@@ -208,7 +208,7 @@ def notOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direct
     return (inputDirection, newStack)
 
 
-def pointerOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direction, List[int]]:
+def pointerOperator(inputDirection: Direction, dataStack: List[int]) -> Tuple[Direction, List[int]]:
     """
     Pop the top value of the stack, and turn the direction pointer that many times. (counter clockwise if negative)
     :param inputDirection:
@@ -225,14 +225,14 @@ def pointerOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[di
     # Python module makes negative modulo's positive, so we need to manually flip the DP the required amount of times
     if dpTurnCount < 0:
         dp = flipDPInvert(dp, dpTurnCount)
-        return (direction((dp, inputDirection.pointers[1])), newStack)
+        return (Direction((dp, inputDirection.pointers[1])), newStack)
     else:
         # Cycle the DP forward by using the module operator
         newDP = (inputDirection.pointers[0] + (dpTurnCount % 4)) % 4
-        return (direction((newDP, inputDirection.pointers[1])), newStack)
+        return (Direction((newDP, inputDirection.pointers[1])), newStack)
 
 
-def switchOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direction, List[int]]:
+def switchOperator(inputDirection: Direction, dataStack: List[int]) -> Tuple[Direction, List[int]]:
     """
     Pop the first value of the stack, and turn the codel chooser that many times.
     :param pointers:
@@ -246,10 +246,10 @@ def switchOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[dir
 
     ccTurnCount = abs(newStack.pop()) % 2
     newCC = (inputDirection.pointers[1] + ccTurnCount) % 2
-    return (direction((inputDirection.pointers[0], newCC)), newStack)
+    return (Direction((inputDirection.pointers[0], newCC)), newStack)
 
 
-def inNOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direction, List[int]]:
+def inNOperator(inputDirection: Direction, dataStack: List[int]) -> Tuple[Direction, List[int]]:
     """
     Add a number from the input. If it isn't a number, nothing is added instead
     """
@@ -261,7 +261,7 @@ def inNOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direct
     return (inputDirection, newStack)
 
 
-def inCOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direction, List[int]]:
+def inCOperator(inputDirection: Direction, dataStack: List[int]) -> Tuple[Direction, List[int]]:
     """
     Add a numeric representation of a character to the stack.
     """
@@ -275,7 +275,7 @@ def inCOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direct
     return (inputDirection, newStack)
 
 
-def outNOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direction, List[int]]:
+def outNOperator(inputDirection: Direction, dataStack: List[int]) -> Tuple[Direction, List[int]]:
     """
     Pops the top number from the stack and outputs it as a number
     """
@@ -287,7 +287,7 @@ def outNOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direc
     return (inputDirection, newStack)
 
 
-def outCOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direction, List[int]]:
+def outCOperator(inputDirection: Direction, dataStack: List[int]) -> Tuple[Direction, List[int]]:
     """
     Pops the top number from the stack and outputs it as a number. Does nothing if top value is negative
     """
@@ -304,7 +304,7 @@ def outCOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direc
     return (inputDirection, newStack)
 
 
-def pushOperator(token: toColorToken, inputDirection: direction, dataStack: List[int]) -> Tuple[direction, List[int]]:
+def pushOperator(token: ToColorToken, inputDirection: Direction, dataStack: List[int]) -> Tuple[Direction, List[int]]:
     """
     Pushes the codelsize of the token to the stack
     """
@@ -314,7 +314,7 @@ def pushOperator(token: toColorToken, inputDirection: direction, dataStack: List
     return (inputDirection, newStack)
 
 
-def popOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direction, List[int]]:
+def popOperator(inputDirection: Direction, dataStack: List[int]) -> Tuple[Direction, List[int]]:
     """
     Pops and discards the top number of the stack
     """
@@ -326,7 +326,7 @@ def popOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direct
     return (inputDirection, newStack)
 
 
-def duplicateOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direction, List[int]]:
+def duplicateOperator(inputDirection: Direction, dataStack: List[int]) -> Tuple[Direction, List[int]]:
     """
     Duplicates the top value of the stack
     """
@@ -341,7 +341,7 @@ def duplicateOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[
     return (inputDirection, newStack)
 
 
-def rollOperator(inputDirection: direction, dataStack: List[int]) -> Tuple[direction, List[int]]:
+def rollOperator(inputDirection: Direction, dataStack: List[int]) -> Tuple[Direction, List[int]]:
     """
     Rolls the stack x times, to a depth of y, where x is equal to the top value of the stack, and y is equal to the second value of the stack
     """

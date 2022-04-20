@@ -1,11 +1,11 @@
-import pygubu
 import os
-from .infoManager import infoManager
+import pygubu
+from .infoManager import InfoManager
 from .canvasManager import canvasManager
 from .imageFunctions import getImage
 from .lexer import graphImage
 from .executeFunctions import takeStep
-from .dataStructures import programState, direction, position
+from .dataStructures import ProgramState, Direction, position
 
 
 class GUI:
@@ -39,7 +39,7 @@ class GUI:
 
         self.initializeFrames()
         self.initializeCallbacks()
-        self.infoManager = infoManager(self.builder, self.generalInfoFrame, self.programStateInfoFrame)
+        self.infoManager = InfoManager(self.builder, self.generalInfoFrame, self.programStateInfoFrame)
         self.canvasManager = canvasManager(self.canvas, self.image, self.programState, self.scaleSize)
 
 
@@ -121,7 +121,7 @@ class GUI:
     def loadFile(self):
         fileName = self.builder.get_object('fileNameEntry', self.optionBar).get()
         if len(fileName) < 1:
-            return None
+            return False
         try:
             tmpImage = getImage(fileName)
         except FileNotFoundError:
@@ -132,13 +132,14 @@ class GUI:
         tmpResult = graphImage(tmpImage)
         if len(tmpResult[1]) != 0:
             edgeInfo = self.infoManager.builder.get_object('codelEdgesMessage', self.infoManager.generalInfo)
-            edgeInfo.configure(text="The following exceptions occured while making the graph:\n{}".format("".join(list(map(lambda x: "\t{}\n".format(x), tmpResult[1])))))
+            edgeInfo.configure(text="The following exceptions occured while making the graph:\n{}".format("".join(list(map("'{}'".format, tmpResult[1])))))
             return False
 
         self.image = tmpImage
         self.graph = tmpResult[0]
-        self.programState = programState(self.graph, position((0,0)), direction((0,0)))
+        self.programState = ProgramState(self.graph, position((0,0)), Direction((0,0)))
         # Reset previous state
         self.canvasManager.previousProgramState = None
         self.canvasManager.programState = None
         self.update()
+        return True

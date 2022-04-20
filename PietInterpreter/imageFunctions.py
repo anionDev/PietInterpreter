@@ -2,7 +2,7 @@ from typing import Union
 from PIL import Image
 import numpy as np
 from .colors import isWhite
-from .dataStructures import position, codel
+from .dataStructures import position, Codel
 
 
 def boundsChecker(image: np.ndarray, inputPosition: position) -> bool:
@@ -35,7 +35,7 @@ def getImage(fileName: str) -> np.ndarray:
     return np.array(image)
 
 
-def getCodel(image: np.ndarray, inputPosition: position, foundPixels: codel = None) -> codel:
+def getCodel(image: np.ndarray, inputPosition: position, foundPixels: Codel = None) -> Codel:
     """
     This function finds all adjacent pixels with the same color as the pixel on the given coords
 
@@ -47,7 +47,7 @@ def getCodel(image: np.ndarray, inputPosition: position, foundPixels: codel = No
     :return: A Set with all positions of same-colored pixels (Also known as a codel)
     """
     if foundPixels is None:
-        foundPixels = codel(set())
+        foundPixels = Codel(set())
 
     # If this coords is already in the set, it has already been traversed
     if inputPosition in foundPixels.codel:
@@ -66,21 +66,21 @@ def getCodel(image: np.ndarray, inputPosition: position, foundPixels: codel = No
     # right
     if boundsChecker(image, position((x + 1, y))) and np.all(image[y][x + 1] == image[y][x]):
         newPosition = position((inputPosition.coords[0] + 1, inputPosition.coords[1]))
-        foundPixels = codel(foundPixels.codel.union(getCodel(image, newPosition, foundPixels).codel))
+        foundPixels = Codel(foundPixels.codel.union(getCodel(image, newPosition, foundPixels).codel))
 
     # below
     if boundsChecker(image, position((x, y - 1))) and np.all(image[y - 1][x] == image[y][x]):
         newPosition = position((inputPosition.coords[0], inputPosition.coords[1] - 1))
-        foundPixels = codel(foundPixels.codel.union(getCodel(image, newPosition, foundPixels).codel))
+        foundPixels = Codel(foundPixels.codel.union(getCodel(image, newPosition, foundPixels).codel))
 
     # left
     if boundsChecker(image, position((x - 1, y))) and np.all(image[y][x - 1] == image[y][x]):
         newPosition = position((inputPosition.coords[0] - 1, inputPosition.coords[1]))
-        foundPixels = codel(foundPixels.codel.union(getCodel(image, newPosition, foundPixels).codel))
+        foundPixels = Codel(foundPixels.codel.union(getCodel(image, newPosition, foundPixels).codel))
 
     # above
     if boundsChecker(image, position((x, y + 1))) and np.all(image[y + 1][x] == image[y][x]):
         newPosition = position((inputPosition.coords[0], inputPosition.coords[1] + 1))
-        foundPixels = codel(foundPixels.codel.union(getCodel(image, newPosition, foundPixels).codel))
+        foundPixels = Codel(foundPixels.codel.union(getCodel(image, newPosition, foundPixels).codel))
 
     return foundPixels

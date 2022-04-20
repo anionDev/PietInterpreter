@@ -102,9 +102,12 @@ class canvasManager():
         """
         Credit to StackOverflow user 'PM 2Ring' for making this code.
         """
-        if c < b: b, c = c, b
-        if b < a: a, b = b, a
-        if c < b: b, c = c, b
+        if c < b:
+            b, c = c, b
+        if b < a:
+            a, b = b, a
+        if c < b:
+            b, c = c, b
         return a + c
 
 
