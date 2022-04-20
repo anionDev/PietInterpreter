@@ -1,9 +1,11 @@
-# Piet interpreter
+# PietInterpreter
 
-PietInterpreter is an interpreter for Piet-programs which was originally written by Jens Bouman.
+PietInterpreter is an interpreter for Piet-programs which was originally written by [Jens Bouman](https://github.com/JensBouman/Piet_interpreter).
 Piet is an esoteric programming language, which is based on the geometric artist Piet Mondriaan. The language specifies actions based on the transitions of colors. For a detailed explanation, please visit [the official website](https://www.dangermouse.net/esoteric/piet.html)
 
-_Note: I used the term codel as a synonym for color block throughout the code._
+## Hints
+
+The term `codel` was used as a synonym for color block.
 
 ## Features
 
