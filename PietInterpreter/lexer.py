@@ -3,10 +3,10 @@ import copy
 import numpy as np
 from .colors import isBlack
 from .imageFunctions import boundsChecker, getCodel, getPixel
-from .tokens import toBlackToken, terminateToken
+from .tokens import BoBlackToken, TerminateToken
 from .helperFunctions import edgeToToken
 from .movementFunctions import findEdge
-from .dataStructures import position, codel, edge, graphNode, graph, direction
+from .dataStructures import position, Codel, Edge, GraphNode, Graph, Direction
 
 
 def cyclePosition(image: np.ndarray, startPosition: position) -> Union[position, bool]:
@@ -25,7 +25,7 @@ def cyclePosition(image: np.ndarray, startPosition: position) -> Union[position,
     return position((startPosition.coords[0] + 1, startPosition.coords[1]))
 
 
-def getCodels(image: np.ndarray, positionList: List[position]) -> List[codel]:
+def getCodels(image: np.ndarray, positionList: List[position]) -> List[Codel]:
     """
     Makes a list of codels from an image and a lits of positions to check
     :param image: an np.ndarray representing the image
@@ -51,38 +51,38 @@ def getCodels(image: np.ndarray, positionList: List[position]) -> List[codel]:
     return codelList
 
 
-def edgesToGraphNode(image: np.ndarray, edges: List[edge]) -> Tuple[graphNode, List[BaseException]]:
+def edgesToGraphNode(image: np.ndarray, edges: List[Edge]) -> Tuple[GraphNode, List[BaseException]]:
     """
     Constructs a dictionary with each pointer possibility as key and (token, coords) as value
     :param image: Image required to find calculate tokens
     :param edges: List[Tuple[coords, pointers]]
     :return: A graphNode containing tokens for each edge given, and a list of exceptions occurred during creation
     """
-    node = graphNode(dict(map(lambda x, lambdaImage=image: (x.edge[1], (edgeToToken(lambdaImage, x), x.edge[0])), edges)))
+    node = GraphNode(dict(map(lambda x, lambdaImage=image: (x.edge[1], (edgeToToken(lambdaImage, x), x.edge[0])), edges)))
     # Extract the exceptions from each edge
     exceptions = list(map(lambda x: x[1][0], filter(lambda graphNodeItem: isinstance(graphNodeItem[1][0], BaseException), node.graphNode.items())))
     return (node, exceptions)
 
 
-def isGraphNodeTerminate(inputNode: graphNode) -> bool:
+def isGraphNodeTerminate(inputNode: GraphNode) -> bool:
     """
     Gets the token from the graphNode, and compares it against the toBlackToken from tokens.
     :param inputNode: A graph node
     :return: True if all tokens in graph node are toBlackTokens, False otherwise.
     """
-    return all(map(lambda x: isinstance(x[1][0], toBlackToken), inputNode.graphNode.items()))
+    return all(map(lambda x: isinstance(x[1][0], BoBlackToken), inputNode.graphNode.items()))
 
 
-def graphNodeToTerminate(inputNode: graphNode) -> graphNode:
+def graphNodeToTerminate(inputNode: GraphNode) -> GraphNode:
     """
     Replaces all tokens in the graphNode to terminate tokens
     :param inputNode: A graph node
     :return: A new graph node with only terminateTokens
     """
-    return graphNode(dict(map(lambda x: (x[0], (terminateToken(), x[1][1])), inputNode.graphNode.items())))
+    return GraphNode(dict(map(lambda x: (x[0], (TerminateToken(), x[1][1])), inputNode.graphNode.items())))
 
 
-def codelToGraphNode(image: np.ndarray, inputCodel: codel, edgePointers: List[direction]) -> Tuple[graphNode, List[BaseException]]:
+def codelToGraphNode(image: np.ndarray, inputCodel: Codel, edgePointers: List[Direction]) -> Tuple[GraphNode, List[BaseException]]:
     """
     :param image: image
     :param inputCodel: set of positions within the same color
@@ -92,7 +92,7 @@ def codelToGraphNode(image: np.ndarray, inputCodel: codel, edgePointers: List[di
     # make codel immutable
     copiedCodel = copy.copy(inputCodel)
     # Find all edges along the codel and edgepointers
-    edges = list(map(lambda pointers, lambdaCodel=copiedCodel: edge((findEdge(lambdaCodel, pointers), pointers)), edgePointers))
+    edges = list(map(lambda pointers, lambdaCodel=copiedCodel: Edge((findEdge(lambdaCodel, pointers), pointers)), edgePointers))
     newGraphNode = edgesToGraphNode(image, edges)
 
     # If there were exceptions in the graph node, there is no need to terminate them
@@ -105,7 +105,7 @@ def codelToGraphNode(image: np.ndarray, inputCodel: codel, edgePointers: List[di
 
     return newGraphNode
 
-def codelsToGraph(image: np.ndarray, codels: List[codel]) -> Tuple[graph, List[BaseException]]:
+def codelsToGraph(image: np.ndarray, codels: List[Codel]) -> Tuple[Graph, List[BaseException]]:
     """
     Converts a list of codels into a graph
     :param image: Input image
@@ -114,11 +114,11 @@ def codelsToGraph(image: np.ndarray, codels: List[codel]) -> Tuple[graph, List[B
     """
     codels = codels.copy()
     # Get an iterator of all possible directions (0,0), (0,1), (1,0) etc...
-    edgePointers = list(map(lambda i: direction((i % 4, int(i / 4))), iter(range(8))))
+    edgePointers = list(map(lambda i: Direction((i % 4, int(i / 4))), iter(range(8))))
 
     # If no more codels are to be graphed, return
     if len(codels) == 0:
-        newGraph = graph(dict())
+        newGraph = Graph(dict())
         return (newGraph, [])
 
     newNode = codelToGraphNode(image, codels[0], edgePointers)
@@ -130,7 +130,7 @@ def codelsToGraph(image: np.ndarray, codels: List[codel]) -> Tuple[graph, List[B
     return (newGraph[0], errorList)
 
 
-def graphImage(image: np.ndarray) -> Tuple[graph, List[BaseException]]:
+def graphImage(image: np.ndarray) -> Tuple[Graph, List[BaseException]]:
     """
     Returns a dict with hashes of each codel as keys, and a codelDict as value. That codelDict contains hashed pointers (Tuple[int, int]) as keys to tokens as values.
     :param image:

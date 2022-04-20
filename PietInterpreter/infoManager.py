@@ -1,10 +1,10 @@
 from .imageFunctions import getPixel, getCodel
 from .colors import isBlack
-from .tokens import toColorToken
+from .tokens import ToColorToken
 from .movementFunctions import getDP, getCC, getArrow
-from .dataStructures import direction
+from .dataStructures import Direction
 
-class infoManager():
+class InfoManager():
     def __init__(self, builder, generalInfoFrame, programStateInfoFrame):
         self.builder = builder
         self.generalInfo = generalInfoFrame
@@ -39,14 +39,14 @@ class infoManager():
 
         baseString += "\nCodel edges are as follows:\n"
         #Generate pointers
-        edgePointers = list(map(lambda i: direction((i%4, int(i/4))), iter(range(8))))
+        edgePointers = list(map(lambda i: Direction((i%4, int(i/4))), iter(range(8))))
         for edgePointer in edgePointers:
             edge = graphNode.graphNode[edgePointer]
             baseString += self.getEdgeDescription(edge, edgePointer)
         edgesInfo.configure(text = baseString)
 
     def getEdgeDescription(self, edge, pointer):
-        if isinstance(edge[0], toColorToken) and edge[0].tokenType == "push":
+        if isinstance(edge[0], ToColorToken) and edge[0].tokenType == "push":
             return "{}/{},{} -> {}({})\n".format(edge[1], getDP(pointer.pointers[0]), getCC(pointer.pointers[1]), edge[0].tokenType, edge[0].codelSize)
         else:
             return "{}/{},{} -> {}\n".format(edge[1], getDP(pointer.pointers[0]), getCC(pointer.pointers[1]), edge[0].tokenType)
@@ -63,7 +63,7 @@ class infoManager():
     def updatePointersInfo(self, position, direction):
         print("Update pointers: {} -> Arrow: {}".format(direction, getArrow(direction)))
         baseString = "Pos: ({},{})\n".format(position.coords[0], position.coords[1])
-        baseString += u"DP: {} ({},{})".format(getArrow(direction), getDP(direction.pointers[0]), getCC(direction.pointers[1]))
+        baseString += "DP: {} ({},{})".format(getArrow(direction), getDP(direction.pointers[0]), getCC(direction.pointers[1]))
 
         pointersInfoMessage = self.builder.get_object("pointerMessage", self.programStateInfoFrame)
         pointersInfoMessage.configure(text=baseString)

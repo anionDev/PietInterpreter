@@ -1,6 +1,5 @@
 from typing import Union
-import operator
-from .dataStructures import direction, position, codel
+from .dataStructures import Direction, position, Codel
 
 def getDP(directionPointer: int) -> str:
     """
@@ -28,7 +27,7 @@ def getCC(codelChooser: int) -> str:
     return 'r'
 
 
-def getArrow(direction: direction) -> str:
+def getArrow(direction: Direction) -> str:
     """
     Returns the Unicode arrow from the direction
     :param direction: Input direction
@@ -91,7 +90,7 @@ def flipDPInvert(directionPointer: int, count = 0) -> int:
             return flipDPInvert(directionPointer - 1, count + 1)
         return flipDPInvert(3, count + 1)
 
-def flip(inputDirection: direction) -> direction:
+def flip(inputDirection: Direction) -> Direction:
     """
     Chooses what part of the general pointer to flip, by DP%2 == CC rule, providing the following flow:
     (0,0) -> (0,1)
@@ -106,8 +105,8 @@ def flip(inputDirection: direction) -> direction:
     :return: Tuple of ints containing new pointers
     """
     if inputDirection.pointers[0] % 2 == inputDirection.pointers[1]:
-        return direction((inputDirection.pointers[0], flipCC(inputDirection.pointers[1])))
-    return direction((flipDP(inputDirection.pointers[0]), inputDirection.pointers[1]))
+        return Direction((inputDirection.pointers[0], flipCC(inputDirection.pointers[1])))
+    return Direction((flipDP(inputDirection.pointers[0]), inputDirection.pointers[1]))
 
 
 def getNextPosition(startPosition: position, directionPointer: int) -> Union[position, KeyError]:
@@ -144,7 +143,7 @@ def getPreviousPosition(startPosition: position, directionPointer: int) -> posit
     return getNextPosition(startPosition, 1)
 
 
-def findEdge(inputCodel: codel, inputDirection: direction) -> Union[position, bool]:
+def findEdge(inputCodel: Codel, inputDirection: Direction) -> Union[position, bool]:
     """
     Finds the edge of the codel according to the direction pointer and the codel chooser
     :param inputCodel: Set of adjacent positions with the same color

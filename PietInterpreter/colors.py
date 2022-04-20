@@ -35,9 +35,9 @@ def getPixelChange(colorStart: np.ndarray, colorEnd: np.ndarray) -> Union[dict[s
     :param colorEnd: Final color
     :return: Either a dictionary {'hueChange': int, 'lightChange': int}, or an Exception
     """
-    if type(colorStart) is not np.ndarray:
+    if not isinstance(colorStart, np.ndarray):
         return TypeError("Start color is not of type np.ndarray, but {}".format(type(colorStart)))
-    if type(colorEnd) is not np.ndarray:
+    if not isinstance(colorEnd, np.ndarray):
         return TypeError("End color is not of type np.ndarray, but {}".format(type(colorStart)))
     if len(colorStart) < 3:
         return ValueError("Start color does contain at least 3 values, but {}".format(colorStart))

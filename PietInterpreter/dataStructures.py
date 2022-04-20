@@ -1,5 +1,5 @@
 import copy
-from .tokens import baseLexerToken
+from .tokens import BaseLexerToken
 
 class position():
     """
@@ -28,7 +28,7 @@ class position():
         return not self == other
 
 
-class direction():
+class Direction():
     """
     A direction is made up of a Direction Pointer (DP) at .pointers[0] and a Codel Chooser (CC) at .pointers[1].
     """
@@ -42,7 +42,7 @@ class direction():
         return "{}".format(self.pointers)
 
     def __deepcopy__(self, memodict):
-        return direction(copy.deepcopy(self.pointers))
+        return Direction(copy.deepcopy(self.pointers))
 
     # Functions to allow this datatype to behave in sets
     def __eq__(self, other):
@@ -54,7 +54,7 @@ class direction():
     def __hash__(self):
         return hash(self.pointers)
 
-class codel():
+class Codel():
     """
     A codel is a set of positions adjacent to each other and with the same color as each other
     """
@@ -68,7 +68,7 @@ class codel():
         return str(self)
 
     def __copy__(self):
-        return codel(copy.copy(self.codel))
+        return Codel(copy.copy(self.codel))
 
     # Functions to allow this datatype to behave in sets
     def __hash__(self):
@@ -81,11 +81,11 @@ class codel():
     def __ne__(self, other):
         return not self == other
 
-class edge():
+class Edge():
     """
     The edge contains a position and direction (DP and CC)
     """
-    def __init__(self, newEdge: tuple[position, direction]):
+    def __init__(self, newEdge: tuple[position, Direction]):
         self.edge = newEdge
 
     def __str__(self):
@@ -95,11 +95,11 @@ class edge():
         return str(self)
 
 
-class graphNode():
+class GraphNode():
     """
     The key to the token and coords is a direction
     """
-    def __init__(self, newNode: dict[direction, tuple[baseLexerToken, position]]):
+    def __init__(self, newNode: dict[Direction, tuple[BaseLexerToken, position]]):
         self.graphNode = newNode
 
     def __str__(self):
@@ -109,11 +109,11 @@ class graphNode():
         return str(self)
 
 
-class graph():
+class Graph():
     """
     Each codel has a node of directions and tokens associated with those directions (and where the edge will start)
     """
-    def __init__(self, newGraph: dict[codel, graphNode]):
+    def __init__(self, newGraph: dict[Codel, GraphNode]):
         self.graph = newGraph
 
     def __str__(self):
@@ -122,11 +122,11 @@ class graph():
     def __repr__(self):
         return str(self)
 
-class programState():
+class ProgramState():
     """
     The program state contains the graph of the program, the position, direction and stack.
     """
-    def __init__(self, newGraph:  graph, newPosition: position, newDirection: direction, dataStack: list[int] = None):
+    def __init__(self, newGraph:  Graph, newPosition: position, newDirection: Direction, dataStack: list[int] = None):
         if dataStack is None:
             dataStack = []
 
@@ -143,4 +143,4 @@ class programState():
 
     def __deepcopy__(self, memodict):
         # Don't copy the graph, because it is not intended to be edited, and it is a slow process
-        return programState(self.graph, copy.deepcopy(self.position), copy.deepcopy(self.direction), copy.deepcopy(self.dataStack))
+        return ProgramState(self.graph, copy.deepcopy(self.position), copy.deepcopy(self.direction), copy.deepcopy(self.dataStack))
