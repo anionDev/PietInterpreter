@@ -2,6 +2,7 @@ from typing import Union
 import numpy as np
 from .errors import UnknownColorError
 
+
 class possiblePixels:
     def __init__(self):
         self.colors = [
@@ -36,14 +37,13 @@ def getPixelChange(colorStart: np.ndarray, colorEnd: np.ndarray) -> Union[dict[s
     :return: Either a dictionary {'hueChange': int, 'lightChange': int}, or an Exception
     """
     if not isinstance(colorStart, np.ndarray):
-        return TypeError("Start color is not of type np.ndarray, but {}".format(type(colorStart)))
+        return TypeError(f"Start color is not of type np.ndarray, but {type(colorStart)}")
     if not isinstance(colorEnd, np.ndarray):
-        return TypeError("End color is not of type np.ndarray, but {}".format(type(colorStart)))
+        return TypeError(f"End color is not of type np.ndarray, but {type(colorStart)}")
     if len(colorStart) < 3:
-        return ValueError("Start color does contain at least 3 values, but {}".format(colorStart))
+        return ValueError(f"Start color does contain at least 3 values, but {colorStart}")
     if len(colorEnd) < 3:
-        return ValueError("Start color does contain at least 3 values, but {}".format(colorEnd))
-
+        return ValueError(f"Start color does contain at least 3 values, but {colorEnd}")
 
     # If either the starting or leaving color is white, there is no change (It is considered a noop)
     if isWhite(colorStart) or isWhite(colorEnd):
@@ -55,9 +55,9 @@ def getPixelChange(colorStart: np.ndarray, colorEnd: np.ndarray) -> Union[dict[s
     colorEnd = list(colorEnd)[:3]
 
     if colorStart not in pixelsColors.colors:
-        return UnknownColorError("Color {} is not recognized as a correct color".format(colorStart))
+        return UnknownColorError(f"Color {colorStart} is not recognized as a correct color")
     if colorEnd not in pixelsColors.colors:
-        return UnknownColorError("Color {} is not recognized as a correct color".format(colorEnd))
+        return UnknownColorError(f"Color {colorEnd} is not recognized as a correct color")
 
     indexStart = pixelsColors.colors.index(colorStart)
     indexEnd = pixelsColors.colors.index(colorEnd)

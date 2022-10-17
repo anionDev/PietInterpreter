@@ -1,6 +1,7 @@
 from typing import Union
 from .dataStructures import Direction, position, Codel
 
+
 def getDP(directionPointer: int) -> str:
     """
     Finds the correct direction pointer string
@@ -82,13 +83,15 @@ def flipDP(directionPointer: int) -> int:
         return directionPointer + 1
     return 0
 
-def flipDPInvert(directionPointer: int, count = 0) -> int:
+
+def flipDPInvert(directionPointer: int, count=0) -> int:
     if count >= 0:
         return directionPointer
     else:
         if directionPointer != 0:
             return flipDPInvert(directionPointer - 1, count + 1)
         return flipDPInvert(3, count + 1)
+
 
 def flip(inputDirection: Direction) -> Direction:
     """
@@ -124,7 +127,7 @@ def getNextPosition(startPosition: position, directionPointer: int) -> Union[pos
         return position((startPosition.coords[0] - 1, startPosition.coords[1]))
     if directionPointer == 3:
         return position((startPosition.coords[0], startPosition.coords[1] - 1))
-    return KeyError("Given key {} is no valid Direction Pointer (0, 1, 2, or 3)".format(directionPointer))
+    return KeyError(f"Given key {directionPointer} is no valid Direction Pointer (0, 1, 2, or 3)")
 
 
 def getPreviousPosition(startPosition: position, directionPointer: int) -> position:
@@ -185,7 +188,7 @@ def findEdge(inputCodel: Codel, inputDirection: Direction) -> Union[position, bo
             return min(minValues, key=lambda lambdaPos: lambdaPos.coords[1])
 
     # Top side
-    else: # dp == 3
+    else:  # dp == 3
         edgePosition = min(inputCodel.codel, key=lambda lambdaPos: lambdaPos.coords[1])
         maxValues = list(filter(lambda lambdaPos: lambdaPos.coords[1] == edgePosition.coords[1], inputCodel.codel))
         if cc == 0:

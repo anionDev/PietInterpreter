@@ -28,13 +28,13 @@ class GUI:
         self.content = None
         self.canvas = None
 
-        #1: Create a builder
+        # 1: Create a builder
         self.builder = pygubu.Builder()
 
-        #2: Load an ui file
-        self.builder.add_from_file("{}/tkinterLayout.ui".format(os.path.abspath(os.path.dirname(__file__))))
+        # 2: Load an ui file
+        self.builder.add_from_file(f"{os.path.abspath(os.path.dirname(__file__))}/tkinterLayout.ui")
 
-        #3: Create the mainwindow
+        # 3: Create the mainwindow
         self.mainwindow = self.builder.get_object('rootWindow')
 
         self.initializeFrames()
@@ -42,10 +42,8 @@ class GUI:
         self.infoManager = InfoManager(self.builder, self.generalInfoFrame, self.programStateInfoFrame)
         self.canvasManager = canvasManager(self.canvas, self.image, self.programState, self.scaleSize)
 
-
     def run(self):
         self.mainwindow.mainloop()
-
 
     def initializeCallbacks(self):
         self.builder.connect_callbacks({
@@ -56,11 +54,10 @@ class GUI:
 
         horizontalBar = self.builder.get_object("canvasHorizontalScroll", self.canvasFrame)
         verticalBar = self.builder.get_object("canvasVerticalScroll", self.canvasFrame)
-        horizontalBar.config(command = self.canvas.xview)
-        verticalBar.config(command = self.canvas.yview)
+        horizontalBar.config(command=self.canvas.xview)
+        verticalBar.config(command=self.canvas.yview)
         self.canvas.config(xscrollcommand=horizontalBar.set, yscrollcommand=verticalBar.set)
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-
 
     def initializeFrames(self):
         self.optionBar = self.builder.get_object('optionBar', self.mainwindow)
@@ -71,7 +68,6 @@ class GUI:
         self.canvasFrame = self.builder.get_object('canvasFrame', self.content)
         self.canvas = self.builder.get_object('canvas', self.canvasFrame)
 
-
     def update(self):
         self.infoManager.updateInfo(self.image, self.graph, self.programState)
         self.canvasManager.updateScaleSize(self.scaleSize)
@@ -79,7 +75,6 @@ class GUI:
         self.canvasManager.updateProgramState(self.programState)
         self.canvasManager.updateCanvas()
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-
 
     def takeStep(self):
         if self.image is None or self.programState is None or self.graph is None:
@@ -97,16 +92,13 @@ class GUI:
         self.update()
         return True
 
-
     def setFileText(self, filePath):
         self.builder.get_object("fileNameEntry", self.optionBar).delete(0, len(self.builder.get_object("fileNameEntry", self.optionBar).get()))
         self.builder.get_object("fileNameEntry", self.optionBar).insert(0, filePath)
 
-
     def setExecutionSpeed(self, pos):
         if 0 < float(pos) < 100:
             self.executionSpeed = float(pos)
-
 
     def setScale(self):
         scaleValue = int(self.builder.get_object('scaleEntry', self.optionBar).get())
@@ -117,7 +109,6 @@ class GUI:
             self.canvasManager.drawImage()
             self.canvasManager.updateCanvas()
 
-
     def loadFile(self):
         fileName = self.builder.get_object('fileNameEntry', self.optionBar).get()
         if len(fileName) < 1:
@@ -126,18 +117,18 @@ class GUI:
             tmpImage = getImage(fileName)
         except FileNotFoundError:
             edgeInfo = self.infoManager.builder.get_object('codelEdgesMessage', self.infoManager.generalInfo)
-            edgeInfo.configure(text="The file '{}' could not be found".format(fileName))
+            edgeInfo.configure(text=f"The file '{fileName}' could not be found")
             return False
 
         tmpResult = graphImage(tmpImage)
         if len(tmpResult[1]) != 0:
             edgeInfo = self.infoManager.builder.get_object('codelEdgesMessage', self.infoManager.generalInfo)
-            edgeInfo.configure(text="The following exceptions occured while making the graph:\n{}".format("".join(list(map("'{}'".format, tmpResult[1])))))
+            edgeInfo.configure(text=f"The following exceptions occured while making the graph:\n{tmpResult[1]}")
             return False
 
         self.image = tmpImage
         self.graph = tmpResult[0]
-        self.programState = ProgramState(self.graph, position((0,0)), Direction((0,0)))
+        self.programState = ProgramState(self.graph, position((0, 0)), Direction((0, 0)))
         # Reset previous state
         self.canvasManager.previousProgramState = None
         self.canvasManager.programState = None

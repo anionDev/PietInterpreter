@@ -1,6 +1,6 @@
 from typing import List, Tuple, Union
 import copy
-from .tokens import BaseLexerToken,BoBlackToken,ToWhiteToken,ToColorToken,TerminateToken
+from .tokens import BaseLexerToken, BoBlackToken, ToWhiteToken, ToColorToken, TerminateToken
 from .movementFunctions import flip, flipDPInvert
 from .errors import UnknownTokenError
 from .dataStructures import Direction
@@ -24,7 +24,6 @@ def executeToken(token: BaseLexerToken, inputDirection: Direction, dataStack: li
     if isinstance(token, TerminateToken):
         return (inputDirection, dataStack)
     return UnknownTokenError("Token of type {} is unknown")
-
 
 
 def executeColorToken(token: ToColorToken, inputDirection: Direction, dataStack: List[int]) -> Union[Tuple[Direction, List[int]], BaseException]:
@@ -78,7 +77,7 @@ def executeColorToken(token: ToColorToken, inputDirection: Direction, dataStack:
     elif token.tokenType == "outC":
         return outCOperator(inputDirection, dataStack)
     else:
-        return UnknownTokenError("Token {} not found".format(token.tokenType))
+        return UnknownTokenError(f"Token {token.tokenType} not found")
 
 
 def noopOperator(inputDirection: Direction, dataStack: List[int]) -> Tuple[Direction, List[int]]:
@@ -148,7 +147,7 @@ def divideOperator(inputDirection: Direction, dataStack: List[int]) -> Union[Tup
     first = newStack.pop()
     second = newStack.pop()
     if second == 0:
-        return ZeroDivisionError("Division by zero {}/{}".format(first, second))
+        return ZeroDivisionError(f"Division by zero {first}/{second}")
     newStack.append(int(second / first))
     return (newDirection, newStack)
 
@@ -167,7 +166,7 @@ def modOperator(inputDirection: Direction, dataStack: List[int]) -> Union[Tuple[
     valA = newStack.pop()
     valB = newStack.pop()
     if valB == 0:
-        return ZeroDivisionError("Second value is 0: {}%{}".format(valA, valB))
+        return ZeroDivisionError(f"Second value is 0: {valA}%{valB}")
     newStack.append(valB % valA)
     return (inputDirection, newStack)
 
@@ -356,6 +355,7 @@ def rollOperator(inputDirection: Direction, dataStack: List[int]) -> Tuple[Direc
     newStack = rollStack(newStack, rolls, insertIndex)
 
     return (inputDirection, newStack)
+
 
 def rollStack(dataStack: List[int], numberOfRolls: int, insertIndex: int) -> List[int]:
     """
