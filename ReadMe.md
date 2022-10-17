@@ -1,8 +1,16 @@
 # PietInterpreter
 
+[![Supported Python versions](https://img.shields.io/pypi/pyversions/PietInterpreter.svg)](https://pypi.org/project/PietInterpreter/)
 ![PyPI](https://img.shields.io/pypi/v/PietInterpreter)
-![GitHub repo size](https://img.shields.io/github/repo-size/anionDev/PietInterpreter)
-![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/anionDev/PietInterpreter)
+![Dependencies](https://img.shields.io/librariesio/github/anionDev/PietInterpreter)
+
+[![CodeFactor](https://www.codefactor.io/repository/github/aniondev/PietInterpreter/badge/main)](https://www.codefactor.io/repository/github/aniondev/PietInterpreter/overview/main)
+[![Downloads](https://pepy.tech/badge/PietInterpreter)](https://pepy.tech/project/pietinterpreter)
+![Coverage](./PietInterpreter/Other/Resources/TestCoverageBadges/badge_shieldsio_linecoverage_blue.svg)
+
+![License](https://img.shields.io/badge/license-MIT-blue)
+![GitHub last commit](https://img.shields.io/github/last-commit/anionDev/PietInterpreter)
+![GitHub issues](https://img.shields.io/github/issues-raw/anionDev/PietInterpreter)
 
 PietInterpreter is an interpreter for Piet-programs. It was originally written by [Jens Bouman](https://github.com/JensBouman/Piet_interpreter).
 Piet is an esoteric programming language, which is based on the geometric artist Piet Mondriaan. The language specifies actions based on the transitions of colors. For a detailed explanation, please visit [the official website](https://www.dangermouse.net/esoteric/piet.html)

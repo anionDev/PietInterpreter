@@ -1,0 +1,6 @@
+Artifacts
+Resources/TestCoverageBadges/**
+!Resources/TestCoverageBadges/badge_shieldsio_linecoverage_blue.svg
+Reference/ReferenceContent/obj
+Reference/ReferenceContent/api/**
+!Reference/ReferenceContent/api/index.md
