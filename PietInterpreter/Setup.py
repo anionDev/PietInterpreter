@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from setuptools import setup, find_packages
 
 
@@ -11,10 +12,10 @@ def create_wheel_file():
 
     executables_namespace = productname
 
-    folder_of_current_file =os.path.dirname(os.path.realpath(__file__))
-    packages = [package for package in find_packages( folder_of_current_file) if not package.endswith(".Tests")]
+    folder_of_current_file = os.path.dirname(os.path.realpath(__file__))
+    packages = [package for package in find_packages(folder_of_current_file) if not package.endswith(".Tests")]
 
-    with open(os.path.join(folder_of_current_file, "ReadMe.md"), "r", encoding='utf-8') as file:
+    with open(os.path.join(Path(folder_of_current_file).parent.absolute(), "ReadMe.md"), "r", encoding='utf-8') as file:
         long_description = file.read()
 
     setup(
