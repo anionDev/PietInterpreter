@@ -1,7 +1,8 @@
 import unittest
+from ..PietInterpreter.colors import possiblePixels
 
 
 class PietTests(unittest.TestCase):
 
     def test_dummy(self) -> None:
-        assert 1 + 1 == 2# TODO implement tests
+        assert 0 == 0  # TODO
