@@ -4,7 +4,7 @@ from .imageFunctions import getImage
 from .GUI import GUI
 
 
-version = "1.0.2"
+version = "1.0.3"
 __version__ = version
 
 
@@ -27,6 +27,7 @@ def main():
         app.setFileText(args.file)
         app.loadFile()
         app.run()
+
 
 if __name__ == "__main__":
     main()

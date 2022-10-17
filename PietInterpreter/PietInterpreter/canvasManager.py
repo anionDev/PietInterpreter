@@ -1,5 +1,6 @@
 from .imageFunctions import getCodel, getPixel
 
+
 class canvasManager():
     def __init__(self, canvas, image, programState, scaleSize):
         self.canvas = canvas
@@ -8,19 +9,15 @@ class canvasManager():
         self.previousProgramState = None
         self.scaleSize = scaleSize
 
-
     def updateImage(self, newImage):
         self.image = newImage
-
 
     def updateScaleSize(self, scaleSize):
         self.scaleSize = scaleSize
 
-
     def updateProgramState(self, newProgramState):
         self.previousProgramState = self.programState
         self.programState = newProgramState
-
 
     def pixelToHexString(self, pixel) -> str:
         """
@@ -28,8 +25,7 @@ class canvasManager():
         :param pixel: list with three values (RGB)
         :return:
         """
-        return '#%02x%02x%02x' %(pixel[0], pixel[1], pixel[2])
-
+        return f'#{pixel[0]:0>2x}{pixel[1]:0>2x}{pixel[2]:0>2x}'
 
     def updateCanvas(self):
         """
@@ -47,7 +43,6 @@ class canvasManager():
         self.highlightCodel()
         return True
 
-
     def drawImage(self):
         """
         Draw the image pixel for pixel, upscaled to the scaleSize.
@@ -59,8 +54,7 @@ class canvasManager():
                 x = raw_x * self.scaleSize
                 y = raw_y * self.scaleSize
                 color = self.pixelToHexString(pixel)
-                self.canvas.create_rectangle(x,y, x+self.scaleSize, y+self.scaleSize, fill=color, outline=color)
-
+                self.canvas.create_rectangle(x, y, x+self.scaleSize, y+self.scaleSize, fill=color, outline=color)
 
     def clearCanvas(self):
         """
@@ -69,8 +63,7 @@ class canvasManager():
         """
         width = len(self.image[0]) * self.scaleSize
         height = len(self.image) * self.scaleSize
-        self.canvas.create_rectangle(0,0, width, height, fill="#FFFFFF")
-
+        self.canvas.create_rectangle(0, 0, width, height, fill="#FFFFFF")
 
     def highlightCodel(self):
         """
@@ -83,20 +76,17 @@ class canvasManager():
         outline = self.pixelToHexString(self.complement(int(pixel[0]), int(pixel[1]), int(pixel[2])))
         self.colorCodel(codel, color, outline)
 
-
     def unHighlightCodel(self):
         codel = getCodel(self.image, self.previousProgramState.position)
         pixel = getPixel(self.image, self.previousProgramState.position)
         color = self.pixelToHexString(pixel)
         self.colorCodel(codel, color, color)
 
-
     def colorCodel(self, codel, fill, outline):
         for position in codel.codel:
             x = position.coords[0] * self.scaleSize
             y = position.coords[1] * self.scaleSize
-            self.canvas.create_rectangle(x,y, x+self.scaleSize - 1, y+self.scaleSize - 1, fill=fill, outline=outline)
-
+            self.canvas.create_rectangle(x, y, x+self.scaleSize - 1, y+self.scaleSize - 1, fill=fill, outline=outline)
 
     def hilo(self, a, b, c):
         """
@@ -110,12 +100,11 @@ class canvasManager():
             b, c = c, b
         return a + c
 
-
     def complement(self, r, g, b):
         """
         Credit to StackOverflow user 'PM 2Ring' for making this code.
         """
         if r == 255 and g == 255 and b == 255:
-            return (0,0,0)
+            return (0, 0, 0)
         k = self.hilo(r, g, b)
         return tuple(k - u for u in (r, g, b))

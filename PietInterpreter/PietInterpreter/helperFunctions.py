@@ -16,7 +16,7 @@ def edgeToToken(image: np.ndarray, inputEdge: Edge) -> Union[BaseLexerToken, Bas
     :return: Either a newly created token, or an exception
     """
     if not boundsChecker(image, inputEdge.edge[0]):
-        return IndexError("Edge position {} is not in image".format(inputEdge.edge[0]))
+        return IndexError(f"Edge position {inputEdge.edge[0]} is not in image")
 
     nextPosition = getNextPosition(inputEdge.edge[0], inputEdge.edge[1].pointers[0])
     if not boundsChecker(image, nextPosition):
@@ -36,7 +36,7 @@ def edgeToToken(image: np.ndarray, inputEdge: Edge) -> Union[BaseLexerToken, Bas
     colorChange = getPixelChange(getPixel(image, inputEdge.edge[0]), getPixel(image, nextPosition))
     if isinstance(colorChange, BaseException):
         # Modify existing error message with location
-        newText = "{} at position {}".format(colorChange.args[0], nextPosition)
+        newText = f"{colorChange.args[0]} at position {nextPosition}"
         return UnknownColorError(newText)
 
     tokenType = getTokenType(colorChange['hueChange'], colorChange['lightChange'])

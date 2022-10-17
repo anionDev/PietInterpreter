@@ -1,0 +1,41 @@
+{
+  "metadata": [
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**.md",
+          "**.yml"
+        ],
+        "src": "./ReferenceContent"
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/**"
+        ],
+        "src": "./ReferenceContent"
+      }
+    ],
+    "overwrite": [
+      {
+        "files": [],
+        "exclude": []
+      }
+    ],
+    "dest": "../Artifacts/Reference",
+    "globalMetadataFiles": [],
+    "fileMetadataFiles": [],
+    "template": [
+      "default"
+    ],
+    "postProcessors": [],
+    "markdownEngineName": "markdig",
+    "noLangKeyword": false,
+    "keepFileLink": false,
+    "cleanupCacheHistory": true,
+    "disableGitFeatures": true
+  }
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<codeunit:codeunit xmlns:codeunit="https://github.com/anionDev/ProjectTemplates" codeunitspecificationversion="1.1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://raw.githubusercontent.com/anionDev/ProjectTemplates/main/Templates/Conventions/RepositoryStructure/CommonProjectStructure/codeunit.xsd">
+    <codeunit:name>PietInterpreter</codeunit:name>
+    <codeunit:version>1.0.3</codeunit:version>
+    <codeunit:minimalcodecoverageinpercent>0</codeunit:minimalcodecoverageinpercent>
+    <codeunit:dependentcodeunits></codeunit:dependentcodeunits>
+</codeunit:codeunit>

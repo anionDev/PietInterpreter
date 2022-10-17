@@ -4,7 +4,7 @@ from typing import Union, Callable
 import numpy as np
 from .lexer import graphImage
 from .imageFunctions import getCodel, getPixel
-from .tokens import ToWhiteToken, ToColorToken,TerminateToken
+from .tokens import ToWhiteToken, ToColorToken, TerminateToken
 from .movementFunctions import getNextPosition
 from .colors import isBlack
 from .tokenFunctions import executeToken
@@ -33,7 +33,7 @@ def interpret(image: np.ndarray) -> Union[ProgramState, list[BaseException]]:
     result = runProgram(image, PS)
     # Check if executed step had an error
     if isinstance(result, BaseException):
-        print("The following exception occured while executing the next step:\n{}".format(result))
+        print(f"The following exception occured while executing the next step:\n{result}")
         return [result]
     return result
 
@@ -48,7 +48,7 @@ def runProgram(image: np.ndarray, PS: ProgramState) -> Union[ProgramState, BaseE
     newState = copy.deepcopy(PS)
 
     if isBlack(getPixel(image, newState.position)):
-        return InBlackPixelError("Programstate starts in black pixel at {}".format(newState.position))
+        return InBlackPixelError(f"Programstate starts in black pixel at {newState.position}")
 
     currentCodel = getCodel(image, newState.position)
     newGraph = newState.graph.graph
@@ -77,6 +77,7 @@ def countSteps(f: Callable[[np.ndarray, ProgramState], ProgramState]) -> Callabl
     inner.counter = 0
     return inner
 
+
 @countSteps
 def takeStep(image: np.ndarray, PS: ProgramState) -> Union[ProgramState, BaseException]:
     """
@@ -98,7 +99,7 @@ def takeStep(image: np.ndarray, PS: ProgramState) -> Union[ProgramState, BaseExc
 
     # Add additional information to the error message (Position and direction)
     if isinstance(result, BaseException):
-        return type(result)("{}, at position {}, direction {}".format(result.args[0], edgePosition,newState.direction))
+        return type(result)(f"{result.args[0]}, at position {edgePosition}, direction {newState.direction}")
         # return result
 
     # If the next token is either white or color, just move along. If the token was black (or terminate), the direction
