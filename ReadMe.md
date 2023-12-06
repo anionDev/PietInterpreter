@@ -12,7 +12,8 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/anionDev/PietInterpreter)
 ![GitHub issues](https://img.shields.io/github/issues-raw/anionDev/PietInterpreter)
 
-PietInterpreter is an interpreter for Piet-programs. It was originally written by [Jens Bouman](https://github.com/JensBouman/Piet_interpreter).
+PietInterpreter is an interpreter for Piet-programs.
+It was originally written by [Jens Bouman](https://github.com/JensBouman/Piet_interpreter).
 Piet is an esoteric programming language, which is based on the geometric artist Piet Mondriaan. The language specifies actions based on the transitions of colors. For a detailed explanation, please visit [the official website](https://www.dangermouse.net/esoteric/piet.html)
 
 ## Get PietInterpreter

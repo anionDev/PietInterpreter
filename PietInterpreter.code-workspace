@@ -1,38 +1,51 @@
 {
 	"folders": [
 		{
-			"path": "."
+			"path": ".",
+			"name": "Entire repository",
+		},
+		{
+			"path": "./PietInterpreter",
+			"name": "PietInterpreter"
 		}
 	],
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "Build all codeunits",
+				"command": "SCBuildCodeunits",
+				"args": [
+					"--buildenvironment",
+					"Development"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "${workspaceFolder}",
+				},
+			}
+		]
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Debug current file",
+				"type": "python",
+				"request": "launch",
+				"program": "${file}",
+				"console": "integratedTerminal"
+			}
+		]
+	},
 	"settings": {
-		"python.testing.autoTestDiscoverOnSaveEnabled": true,
-		"python.testing.unittestEnabled": false,
-		"python.testing.pytestEnabled": true,
-		"python.testing.pytestArgs": [
-			"--verbose",
-			"PietInterpreter/",
+		"window.title": "${dirty} ${rootName}", // see https://code.visualstudio.com/updates/v1_10#_configurable-window-title
+		"spellright.documentTypes": [
+			"markdown",
+			"plaintext",
 		],
-		"python.linting.pylintEnabled": true,
 		"spellright.language": [
 			"en",
 		],
-		"spellright.documentTypes": [
-			"markdown",
-			"latex",
-			"plaintext",
-		],
-	},
-	"launch": {
-		"configurations": [
-			{
-				"name": "Debug",
-				"type": "python",
-				"request": "launch",
-				"program": "Piet.py",
-				"cwd": "${workspaceFolder}/PietInterpreter",
-				"console": "integratedTerminal"
-			}
-		],
-		"compounds": []
 	}
 }

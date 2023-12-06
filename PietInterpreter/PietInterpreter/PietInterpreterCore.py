@@ -4,7 +4,7 @@ from .imageFunctions import getImage
 from .GUI import GUI
 
 
-version = "1.0.3"
+version = "1.0.4"
 __version__ = version
 
 
