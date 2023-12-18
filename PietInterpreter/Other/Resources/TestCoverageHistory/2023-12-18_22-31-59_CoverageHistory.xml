@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<coverage version="1.0" date="2023-12-18_22-31-59" tag="v1.0.4">
+  <assembly name="PietInterpreter">
+    <class name="canvasManager.py" coveredlines="0" coverablelines="67" totallines="110" coveredbranches="0" totalbranches="0" coveredcodeelements="0" totalcodeelements="0" />
+    <class name="colors.py" coveredlines="12" coverablelines="43" totallines="102" coveredbranches="0" totalbranches="0" coveredcodeelements="0" totalcodeelements="0" />
+    <class name="dataStructures.py" coveredlines="0" coverablelines="82" totallines="157" coveredbranches="0" totalbranches="0" coveredcodeelements="0" totalcodeelements="0" />
+    <class name="errors.py" coveredlines="4" coverablelines="4" totallines="11" coveredbranches="0" totalbranches="0" coveredcodeelements="0" totalcodeelements="0" />
+    <class name="executeFunctions.py" coveredlines="0" coverablelines="62" totallines="114" coveredbranches="0" totalbranches="0" coveredcodeelements="0" totalcodeelements="0" />
+    <class name="GUI.py" coveredlines="0" coverablelines="101" totallines="136" coveredbranches="0" totalbranches="0" coveredcodeelements="0" totalcodeelements="0" />
+    <class name="helperFunctions.py" coveredlines="0" coverablelines="27" totallines="43" coveredbranches="0" totalbranches="0" coveredcodeelements="0" totalcodeelements="0" />
+    <class name="imageFunctions.py" coveredlines="0" coverablelines="40" totallines="86" coveredbranches="0" totalbranches="0" coveredcodeelements="0" totalcodeelements="0" />
+    <class name="infoManager.py" coveredlines="0" coverablelines="50" totallines="68" coveredbranches="0" totalbranches="0" coveredcodeelements="0" totalcodeelements="0" />
+    <class name="lexer.py" coveredlines="0" coverablelines="64" totallines="147" coveredbranches="0" totalbranches="0" coveredcodeelements="0" totalcodeelements="0" />
+    <class name="movementFunctions.py" coveredlines="0" coverablelines="100" totallines="199" coveredbranches="0" totalbranches="0" coveredcodeelements="0" totalcodeelements="0" />
+    <class name="PietInterpreterCore.py" coveredlines="0" coverablelines="22" totallines="33" coveredbranches="0" totalbranches="0" coveredcodeelements="0" totalcodeelements="0" />
+    <class name="tokenFunctions.py" coveredlines="0" coverablelines="212" totallines="376" coveredbranches="0" totalbranches="0" coveredcodeelements="0" totalcodeelements="0" />
+    <class name="tokens.py" coveredlines="0" coverablelines="25" totallines="67" coveredbranches="0" totalbranches="0" coveredcodeelements="0" totalcodeelements="0" />
+  </assembly>
+</coverage>

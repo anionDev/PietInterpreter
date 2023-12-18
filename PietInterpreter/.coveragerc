@@ -1,6 +1,6 @@
 [run]
 source = .
-omit = ./venv/*,*__init__.py,./ScriptCollection/Other/*,./ScriptCollectionTests/*,Setup.py
+omit = ./venv/*,*__init__.py,./PietInterpreter/Other/*,./PietInterpreterTests/*
 
 [report]
-omit = ./venv/*,*__init__.py,./ScriptCollection/Other/*,./ScriptCollectionTests/*,Setup.py
+omit = ./venv/*,*__init__.py,./PietInterpreter/Other/*,./PietInterpreterTests/*
