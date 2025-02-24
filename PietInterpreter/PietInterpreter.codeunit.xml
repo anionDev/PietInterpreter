@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<cps:codeunit xmlns:cps="https://projects.aniondev.de/PublicProjects/Common/ProjectTemplates/-/tree/main/Conventions/RepositoryStructure/CommonProjectStructure" codeunitspecificationversion="2.7.10"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://projects.aniondev.de/PublicProjects/Common/ProjectTemplates/-/raw/v2.7.10/Conventions/RepositoryStructure/CommonProjectStructure/codeunit.xsd" enabled="true">
+<cps:codeunit xmlns:cps="https://projects.aniondev.de/PublicProjects/Common/ProjectTemplates/-/tree/main/Conventions/RepositoryStructure/CommonProjectStructure" codeunitspecificationversion="2.9.4"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://projects.aniondev.de/PublicProjects/Common/ProjectTemplates/-/raw/v2.9.4/Conventions/RepositoryStructure/CommonProjectStructure/codeunit.xsd" enabled="true">
     <cps:name>PietInterpreter</cps:name>
-    <cps:version>1.0.7</cps:version>
-    <cps:properties codeunithastestablesourcecode="true" codeunithasupdatabledependencies="true" throwexceptionifcodeunitfilecannotbevalidated="true" description="PietInterpreter is an interpreter for Piet-programs.">
+    <cps:version>1.0.8</cps:version>
+    <cps:codeunitownername>Marius Göcke</cps:codeunitownername>
+    <cps:codeunitowneremailaddress>marius.goecke@gmail.com</cps:codeunitowneremailaddress>
+    <cps:properties codeunithastestablesourcecode="true" codeunithasupdatabledependencies="true" throwexceptionifcodeunitfilecannotbevalidated="true" developmentstate="Maintenance-updates only" description="PietInterpreter is an interpreter for Piet-programs.">
         <cps:testsettings minimalcodecoverageinpercent="1"/>
+        <cps:pipelinedemands>
+        </cps:pipelinedemands>
+        <cps:updatesettings>
+            <cps:ignoreddependencies>
+            </cps:ignoreddependencies>
+        </cps:updatesettings>
     </cps:properties>
     <cps:dependentcodeunits/>
     <cps:developerteam>

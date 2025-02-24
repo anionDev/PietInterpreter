@@ -1,0 +1,12 @@
+version: '3'
+
+tasks:
+
+  BaseBuildAllCodeunits:
+    desc: "Base: Build all codeunits"
+    dir: "."
+    cmds:
+      - scbuildcodeunits
+    aliases:
+      - basebuildallcodeunits
+      - bb
