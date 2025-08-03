@@ -4,6 +4,7 @@ tasks:
 
   BaseBuildAllCodeunits:
     desc: "Base: Build all codeunits"
+    silent: true
     dir: "."
     cmds:
       - scbuildcodeunits
