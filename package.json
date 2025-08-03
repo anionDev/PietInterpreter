@@ -1,0 +1,7 @@
+{
+  "name": "PietInterpreter",
+  "scripts": {
+    "prepare": "husky"
+  },
+  "version": "1.0.9"
+}
